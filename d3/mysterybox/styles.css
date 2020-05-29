@@ -29,7 +29,6 @@
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  background-image: url("https://cdn.lawrencemcdaniel.com/wp-content/uploads/2020/05/17014701/underscore-logo.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -42,7 +41,7 @@ body {
   padding: 0;
 }
 
-.container {
+.d3-container {
     width: 300px;
     height: 500px;
     margin: 100px auto 0 auto;
@@ -51,7 +50,7 @@ body {
     -webkit-perspective: 2000px;
 }
 
-.cube {
+.d3-cube {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -62,7 +61,7 @@ body {
 }
 
 
-.side {
+.d3-side {
   margin: 0;
   width: 300px;
   height: 300px;
@@ -72,7 +71,7 @@ body {
 
 }
 
-.side > * {
+.d3-side > * {
   border: 0;
   display: block;
   position: absolute;
@@ -80,15 +79,15 @@ body {
   height: 100%;
 }
 
-.hidden {
+.d3-hidden {
   display: none;
 }
 
-.side > div {
+.d3-side > div {
   pointer-events: none;
 }
 
-.cube {
+.d3-cube {
   transform: translateZ(-100px) rotateX(-90deg);
   -webkit-transform: translateZ(-100px) rotateX(-90deg);
 }
