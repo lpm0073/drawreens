@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+      div {
+        background-image: url('./lawrence.jpg');
+        background-repeat: no-repeat;
+        position: absolute;
+        border: 0.5px solid black;
+        box-sizing: border-box;
+      }
+    </style>    
+</head>
+<body>
+    <script src="//d3js.org/d3.v4.min.js"></script>
+    <script>
+    
+    var rows = 6,
+        columns = 6,
+        size = 60,
+        holeIndex = Math.floor(Math.random() * rows * columns),
+        last;
+    
+    var tiles = d3.select("body").selectAll("div")
+      .data(d3.range(rows * columns))
+      .enter()
+      .append("div")
+        .style("background-position", getPosition)
+        .style("width", size + "px")
+        .style("height", size + "px")
+        .call(move)
+        .nodes();
+    
+    tiles[holeIndex].remove();
+    tiles[holeIndex] = null;
+    
+    swap();
+    
+    function swap(){
+    
+      var destination = d3.shuffle(getNeighbors(holeIndex)).filter(function(d){
+        return tiles[d] !== last;
+      })[0];
+    
+      last = tiles[destination];
+    
+      tiles[destination] = null;
+    
+      tiles[holeIndex] = last;
+    
+      d3.select(last).datum(holeIndex)
+        .transition()
+        .duration(500)
+        .call(move)
+        .on("end", swap);
+    
+      holeIndex = destination;
+    
+    }
+    
+    function getPosition(d){
+      return "-" + getLeft(d) + " -" + getTop(d);
+    }
+    
+    function getNeighbors(d){
+      var neighbors = [];
+    
+      var row = Math.floor(d / columns),
+          column = d % columns;
+    
+      if (row > 0) {
+        neighbors.push(d - columns);
+      }
+    
+      if (row < rows - 1) {
+        neighbors.push(d + columns);
+      }
+    
+      if (column > 0) {
+        neighbors.push(d - 1);
+      }
+    
+      if (column < columns - 1) {
+        neighbors.push(d + 1);
+      }
+    
+      return neighbors;
+    }
+    
+    function move(sel) {
+    
+      sel.style("top", getTop)
+        .style("left", getLeft);
+    
+    }
+    
+    function getTop(d){
+      return (Math.floor(d / columns) * size) + "px";
+    }
+    
+    function getLeft(d){
+      return (d % columns * size) + "px";
+    }
+    
+    </script>    
+</body>
+</html>

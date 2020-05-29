@@ -1,0 +1,167 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .quad {
+          stroke-linejoin: round;
+          stroke-width: 3px;
+          stroke: #000;
+          fill: #fff;
+        }
+      
+        .grid {
+          stroke: #0eb8ba;
+          stroke-width: 1px;
+          fill: none;
+        }
+      
+        text {
+          fill: #000;
+          text-transform: uppercase;
+          text-anchor: middle;
+          font: 600 36px sans-serif;
+        }
+      
+      </style>    
+</head>
+<body>
+    <div></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="warper.js"></script>
+    <script>
+    
+    var width = 480,
+        height = 480;
+    
+    var svg = d3.select("body").append("svg")
+      .attr("width", 960)
+      .attr("height", 500);
+    
+    var quads = svg.selectAll("g")
+      .data(["bilinear", "projective"])
+      .enter()
+      .append("g")
+        .attr("transform", function(d, i){
+          return "translate(" + (i * width) + " 10)";
+        });
+    
+    quads.append("text")
+      .text(function(d){
+        return d;
+      })
+      .attr("x", width / 2)
+      .attr("y", height)
+      .attr("dy", "-0.5em");
+    
+    var square = getCorners(true),
+        grid = getGrid(12);
+    
+    quads.append("path")
+      .datum(square)
+      .attr("class", "quad")
+      .call(updateQuad);
+  
+    
+    quads.append("path")
+      .datum(grid)
+      .attr("class", "grid")
+      .call(updateGrid);
+    
+    warp(square);
+    
+    function warp(current) {
+    
+      var next = current === square ? getCorners() : square;
+    
+      quads.each(function(type, i){
+    
+        var lines = grid,
+            fn = warper[type](current, next);
+    
+        if (current === square) {
+          lines = grid.map(function(linestring){
+            return linestring.map(fn);
+          });
+        }
+    
+        var quad = d3.select(this);
+    
+        quad.select(".grid")
+          .datum(lines)
+          .transition()
+          .delay(500)
+          .duration(600)
+          .call(updateGrid);
+    
+        
+        quad.select(".quad")
+          .datum(next)
+          .transition()
+          .delay(500)
+          .duration(600)
+          .call(updateQuad)
+          .each("end",i && warp);
+    
+      });
+    
+    }
+    
+    function updateQuad(sel) {
+    
+      sel.attr("d",function(d){
+        return "M" + d.join("L") + "Z";
+      });
+    
+    }
+    
+    function updateGrid(sel) {
+    
+      sel.attr("d",function(d){
+    
+        return d.map(function(linestring){
+          return "M" + linestring.join("L");
+        });
+    
+      });
+    
+    }
+    
+    function getGrid(dim) {
+    
+      var cols = d3.range(dim).map(function(i){
+    
+        var x = width / 4 + (width / 2) * (1 + i) / (dim + 1);
+    
+        return d3.range(100).map(function(j){
+          return [x, height / 4 + (j / 99) * height / 2];
+        })
+    
+      });
+    
+      var rows = cols.map(function(col){
+        return col.map(function(point){
+          return [point[1], point[0]];
+        });
+      });
+    
+      return rows.concat(cols);
+    
+    }
+    
+    function getCorners(sq) {
+    
+      return d3.range(4).map(function(i){
+        return [
+          ((i % 3 ? 1 : 0) + (sq ? 0.5 : 0.1 + Math.random() * 0.8)) * width / 2,
+          (Math.floor(i / 2) + (sq ? 0.5 : 0.1 + Math.random() * 0.8)) * height / 2
+        ];
+      });
+    
+    }
+    
+    </script>    
+</body>
+</html>
