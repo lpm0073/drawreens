@@ -20,16 +20,29 @@ function random_logo() {
 }
 
 function repaint() {
-  idx = Math.floor(Math.random() * d3.selectAll(".logo").length);
-  
+  if (logos.length == 0) {
+    return false;
+  }
+
+  idx = Math.floor(Math.random() * d3.selectAll(".logo").size());
   d3.selectAll(".logo")
     .filter(function(d, i) {return i === idx})
     .each(function() {
 
       var side = d3.select(this);
       setTimeout(function() {
-          side.style("background-image", "url('" + random_logo() + "')");
-        }, 5000*Math.random());   
+        side.transition()
+            .duration(500)
+            .style("opacity", 0);
+
+        side.style("background-image", "url('" + random_logo() + "')");
+
+        side.transition()
+            .duration(500)
+            .style("opacity", 1);
+
+        repaint();
+        }, 3000*Math.random());   
 
 
     });
