@@ -1,7 +1,6 @@
 /*
 https://bl.ocks.org/veltman/4c989172ac2f820b0b7267c53cb96975
 */
-var user = "tophtucker";
 var api = "https://api.lawrencemcdaniel.com/wp-json/wp/v2/posts?categories=43&_embed&per_page=100";
 var logos = [];
 
@@ -12,6 +11,7 @@ d3.json(api, function(err, posts) {
   });
 
   d3.shuffle(logos);
+  repaint();
 
 });
 
@@ -19,7 +19,13 @@ function random_logo() {
   return logos[Math.floor(Math.random() * logos.length)];
 }
 
+/*
+  1. Choose a random cube side, choose a random logo, wait for a random time period
+  2. swap the background image of the chosen cube side
+  3. queue up another repaint()
+*/
 function repaint() {
+
   if (logos.length == 0) {
     return false;
   }
@@ -48,7 +54,4 @@ function repaint() {
     });
 
 }
-
-
-setTimeout(repaint, 1000);
 
