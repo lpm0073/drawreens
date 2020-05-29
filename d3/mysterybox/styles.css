@@ -1,30 +1,11 @@
-#name {
-  margin-left: 10px;
-  margin-right: 10px;
-  text-align: center;
-  margin-top: 75px;
-  color: purple;
-  font-size: 4em;
-  font-style: bold;
-  padding: 0px;
+:root {
+  --width: 200px;
+  --axis: 100px;
 }
-
-#title {
-  margin-left: 20px;
-  margin-right: 20px;
-  text-align: center;
-  margin-top: 15vh;
-  color: white;
-  font-size: large;
-  font-style: bold;
-  padding: 20px;
-
-}
-
 
 .logo {
   height: 100%;
-  width: 80%;
+  width: 66%;
   margin-left: auto;
   margin-right: auto;
   background-repeat: no-repeat;
@@ -37,19 +18,21 @@
 body {
   margin: 0;
   padding: 0;
+  max-width: 1200px;
+  background-color: black;
 }
 
 .d3-container {
-    width: 300px;
-    height: 500px;
+    width: var(--width);
+    height: var(--width);
     margin: 100px auto 0 auto;
     position: relative;
-    perspective: 2000px;
-    -webkit-perspective: 2000px;
+    perspective: 5000px;
+    -webkit-perspective: 5000px;
 }
 
 .d3-cube {
-    position: absolute;
+  position: absolute;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
@@ -61,11 +44,12 @@ body {
 
 .d3-side {
   margin: 0;
-  width: 300px;
-  height: 300px;
+  width: var(--width);
+  height: var(--width);
   position: absolute;
   cursor: pointer;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+CjxyZWN0IGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlPSJub25lIiB4PSIwIiB5PSIwIiB3aWR0aD0iMjUiIGhlaWdodD0iMjUiPjwvcmVjdD4Kd2lkdGg9JzUwJyBoZWlnaHQ9JzUwJyZndDsKPHJlY3QgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiBzdHJva2U9Im5vbmUiIHg9IjI1IiB5PSIyNSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjI1Ij48L3JlY3Q+Cjwvc3ZnPg==");
+  background-color: rgba(255, 255, 255, .5);
 
 }
 
@@ -75,10 +59,6 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-}
-
-.d3-hidden {
-  display: none;
 }
 
 .d3-side > div {
@@ -91,74 +71,74 @@ body {
 }
 
 .front {
-  transform: rotateX(-12deg) rotateY(45deg) translateZ(150px);
+  transform: rotateX(-12deg) rotateY(45deg) translateZ(var(--axis));
   animation: fade 5s infinite linear -1.25s;
   -webkit-animation: fade 5s infinite linear -1.25s;
 }
 
 .back {
-  transform: rotateX(168deg) rotateY(-45deg) rotateZ(180deg) translateZ(150px);
+  transform: rotateX(168deg) rotateY(-45deg) rotateZ(180deg) translateZ(var(--axis));
   animation: fade 5s infinite linear -3.75s;
   -webkit-animation: fade 5s infinite linear -3.75s;
 }
 
 .right {
-  transform: rotateX(-12deg) rotateY(135deg) translateZ(150px);
+  transform: rotateX(-12deg) rotateY(135deg) translateZ(var(--axis));
   animation: fade 5s infinite linear;
   -webkit-animation: fade 5s infinite linear;
 
 }
 
 .left {
-  transform: rotateX(-12deg) rotateY(-45deg) translateZ(150px);
+  transform: rotateX(-12deg) rotateY(-45deg) translateZ(var(--axis));
   animation: fade 5s infinite linear -2.5s;
   -webkit-animation: fade 5s infinite linear -2.5s;
 }
 
 .top {
-  transform: rotateX(78deg) rotateZ(-45deg) translateZ(150px);
+  transform: rotateX(78deg) rotateZ(-45deg) translateZ(var(--axis));
 }
 
 .bottom {
-  transform: rotateX(-102deg) rotateZ(45deg) translateZ(150px);
+  transform: rotateX(-102deg) rotateZ(45deg) translateZ(var(--axis));
 }
 /* --------------------------------------------------------------------------- */
 
 .front > div {
-  background-color: rgba(44,155,222,0.6);
+  background-color: rgba(44,155,222,0.5);
 }
 
 .back > div {
-  background-color: rgba(43,236,136,0.6);
+  background-color: rgba(43,236,136,0.5);
 }
 
 .right > div {
-  background-color: rgba(153,242,87,0.6);
+  background-color: rgba(153,242,87,0.5);
 }
 
 .left > div {
-  background-color: rgba(255,135,58,0.6);
+  background-color: rgba(255,135,58,0.5);
 }
 
 .top > div {
-  background-color: rgba(239,67,148,0.6);
+  background-color: rgba(239,67,148,0.5);
 }
 
 .bottom > div {
-  background-color: rgba(115,63,172,0.6);
+  background-color: rgba(115,63,172,0.5);
 }
 
 @keyframes fade {
   from { opacity: 1; }
-  12.5% { opacity: 0.3; }
-  62.5% { opacity: 0.3; }
+  12.5% { opacity: 0.5; }
+  62.5% { opacity: 0.5; }
   75% { opacity: 1; }
 }
 
 @-webkit-keyframes fade {
   from { opacity: 1; }
-  12.5% { opacity: 0.3; }
-  62.5% { opacity: 0.3; }
+  12.5% { opacity: 0.5; }
+  62.5% { opacity: 0.5; }
   75% { opacity: 1; }
 }
 
