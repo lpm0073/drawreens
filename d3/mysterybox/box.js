@@ -20,8 +20,10 @@ function random_logo() {
 }
 
 function repaint() {
-
+  idx = Math.floor(Math.random() * d3.selectAll(".logo").length);
+  
   d3.selectAll(".logo")
+    .filter(function(d, i) {return i === idx})
     .each(function() {
 
       var side = d3.select(this);
@@ -34,5 +36,6 @@ function repaint() {
 
 }
 
-  setTimeout(repaint, 1000);   
+
+setTimeout(repaint, 1000);
 
